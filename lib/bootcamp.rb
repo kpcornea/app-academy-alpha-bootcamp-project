@@ -1,5 +1,3 @@
-require "byebug"
-
 class Bootcamp
   def initialize(name, slogan, student_capacity)
     @name = name
@@ -42,26 +40,25 @@ class Bootcamp
     @students.include?(student)
   end
 
-  def grades
-    @grades
+  def student_to_teacher_ratio
+    @students.length / @teachers.length
   end
 
-  def add_grade(student, new_grade)
-    @grades[student] << new_grade
+  def add_grade(student, grade)
+    if enrolled?(student)
+      @grades[student] << grade
+      return true
+    end
+    false
   end
 
+  def num_grades(student)
+    @grades[student].length
+  end
+
+  def average_grade(student)
+    total = @grades[student].reduce(:+)
+    return nil if total == nil
+    total / num_grades(student)
+  end
 end
-
-#
-# b = Bootcamp.new("Map Academy", "Anyone can be a cartographer.", 6)
-#
-# p b
-#
-# r = b.grades
-# p r
-# # byebug
-# b.add_grade("Alice", 42)
-# p r
-# p b.grades["Alice"]
-# # byebug
-# p b.grades["Bob"]
